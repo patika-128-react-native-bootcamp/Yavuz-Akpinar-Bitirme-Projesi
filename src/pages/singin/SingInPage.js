@@ -1,10 +1,8 @@
 import React from "react";
-import { SafeAreaView, Text, View } from "react-native";
-import Input from "../../components/input/Input";
-import Button from "../../components/button/Button";
-import { Formik } from "formik"
+import { Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import auth from '@react-native-firebase/auth';
+import SingInLayout from "./singInLayout/SingInLayout";
 
 const SingInPage = () => {
   const navigation = useNavigation()
@@ -12,59 +10,35 @@ const SingInPage = () => {
   const handleNavigateGoBack = () => {
     navigation.goBack()
   }
-
+  const handleSingIn = ({ email, password, passwordagain }) => {
+    if (email && password) {
+      if (password !== passwordagain) {
+        Alert.alert("Paswords are not same")
+        return;
+      }
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          Alert.alert('User account created, now you can log in')
+          handleNavigateGoBack()
+        }).catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            Alert.alert('That email address is already in use!');
+          }
+          if (error.code === 'auth/invalid-email') {
+            Alert.alert('That email address is invalid!');
+          }
+          if (password.length < 6) {
+            Alert.alert('Password length must be at least 6');
+          }
+        })
+    } else {
+      Alert.alert('Please write your info')
+    }
+  }
 
   return (
-    <SafeAreaView>
-      <Formik
-        initialValues={{ name: '', surname: '', email: '', password: '', passwordagain: '' }}
-        onSubmit={() => {
-          navigation.navigate('LogInPage')
-          console.log("a")
-        }}>
-        {({ handleSubmit, values, handleChange }) => (
-          <View>
-            <Input
-              title="Name"
-              placeholder="Name"
-              value={values.name}
-              onChangeText={handleChange('name')}
-            />
-            <Input
-              title="surname"
-              placeholder="Surname"
-              value={values.surname}
-              onChangeText={handleChange('surname')}
-            />
-            <Input
-              title="E-mail"
-              placeholder="E-mail"
-              value={values.email}
-              onChangeText={handleChange('email')}
-            />
-            <Input
-              title="Password"
-              placeholder="Password"
-              value={values.password}
-              onChangeText={handleChange('password')}
-            />
-            <Input
-              title="Password Again"
-              placeholder="Password Again"
-              value={values.passwordagain}
-              onChangeText={handleChange('passwordagain')}
-            />
-            <Button
-              onPress={handleSubmit}
-              title="LogIn" />
-          </View>
-        )}
-      </Formik>
-      <Button
-        onPress={handleNavigateGoBack}
-        theme="outline"
-        title="Back" />
-    </SafeAreaView>
+    <SingInLayout onSubmit={handleSingIn} navigateGoBack={handleNavigateGoBack} />
   )
 }
 

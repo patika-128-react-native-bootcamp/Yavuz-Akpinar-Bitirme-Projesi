@@ -1,48 +1,35 @@
 import { useNavigation } from "@react-navigation/native";
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
-import Button from "../../components/button/Button";
-import Input from "../../components/input/Input";
+import React from "react";
+import { Alert} from "react-native";
+import auth from '@react-native-firebase/auth';
+import LogInLayout from "./logInLayout/LogInLayout";
 
 const LogInPage = () => {
+
   const navigation = useNavigation()
 
   const handleNavigateSingIn = () => {
     navigation.navigate("SingInPage")
   }
-  const handleNavigateLogIn = () => {
+  const handleNavigateDrawer = () => {
     navigation.navigate("DrawerStack")
+  }
+  const handleLogIn = ({email, password}) => {
+    try {
+      if(email && password) {
+        auth().signInWithEmailAndPassword(email, password)
+        Alert.alert("Giriş yaptınız")
+      }else {
+        Alert.alert("olmadı")
+      } 
+    } catch (error) {
+      console.log("alert")
+    }
+    console.log(data)
   }
 
   return (
-    <SafeAreaView>
-      <Formik initialValues={{ email: '', password: '' }} onSubmit={handleNavigateLogIn}>
-        {({ values, handleSubmit, handleChange }) => (
-
-          <View>
-            <Input
-              value={values.email}
-              title="User Name"
-              placeholder="E-mail"
-              onChangeText={handleChange('email')} />
-            <Input
-              value={values.password}
-              title="Password"
-              placeholder="Password"
-              onChangeText={handleChange('password')} />
-            <Button
-              onPress={handleSubmit}
-              title="LogIn" />
-          </View>
-        )}
-      </Formik>
-
-      <Button
-        onPress={handleNavigateSingIn}
-        theme="outline"
-        title="SingIn" />
-    </SafeAreaView>
+    <LogInLayout onSubmit={handleLogIn} navigateSingIn={handleNavigateSingIn}/>
   )
 }
 

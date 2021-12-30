@@ -1,17 +1,35 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LogInPage from "../../pages/login/LogInPage";
 import SingInPage from "../../pages/singin/SingInPage";
 import DrawerStack from "./DrawerStack";
+import auth from '@react-native-firebase/auth';
 
 const Stack = createNativeStackNavigator()
 
 const LogInStack = () => {
-  return(
+  const [isSignedIn, setIsSignedIn] = useState(null)
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(setIsSignedIn)
+    return subscriber
+  }, [])
+
+  return (
     <Stack.Navigator>
-      <Stack.Screen name="LogInPage" component={LogInPage}/>
-      <Stack.Screen name="SingInPage" component={SingInPage}/>
-      <Stack.Screen name='DrawerStack' component={DrawerStack} />
+      {
+        !!isSignedIn ? (
+          <>
+            <Stack.Screen name='DrawerStack' component={DrawerStack} />
+
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="LogInPage" component={LogInPage} />
+            <Stack.Screen name="SingInPage" component={SingInPage} />
+          </>
+        )
+      }
     </Stack.Navigator>
   )
 }

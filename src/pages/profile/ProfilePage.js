@@ -2,6 +2,7 @@ import React from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import Button from "../../components/button/Button";
 import titles from "../../components/sources/titles.json"
+import auth from "@react-native-firebase/auth"
 
 
 const ProfilePage = () => {
@@ -18,6 +19,7 @@ const ProfilePage = () => {
           )
           })
       }
+      <Button title="Log Out" onPress={() => auth().signOut()}/>
     </SafeAreaView>
   )
 }
