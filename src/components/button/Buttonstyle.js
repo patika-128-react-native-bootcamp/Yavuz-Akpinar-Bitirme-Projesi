@@ -5,6 +5,7 @@ const styles = {
     container:{
       backgroundColor:"teal",
       margin:10,
+      marginTop:20,
       alignItems:"center",
       padding:5,
       borderRadius:10
