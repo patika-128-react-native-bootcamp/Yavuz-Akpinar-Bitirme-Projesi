@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689680490315",
+    "project_id": "runningactivityapp-dc6ad",
+    "storage_bucket": "runningactivityapp-dc6ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689680490315:android:60fcbfdffb2afce95792ce",
+        "android_client_info": {
+          "package_name": "com.runningactivityapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689680490315-udj1cj4p1jpagbujqrr5vhtjjre5csbq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPQ9b09zOw3J7shnb9WZOyl7i8oHN7WSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689680490315-udj1cj4p1jpagbujqrr5vhtjjre5csbq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
