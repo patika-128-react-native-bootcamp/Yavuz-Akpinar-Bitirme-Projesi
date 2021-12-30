@@ -15,7 +15,7 @@ const LogInPage = () => {
     setLogInData({...logInData, password:password})
   }
   const handleNavigateSingIn = () => {
-    navigation.navigate("SingIn")
+    navigation.navigate("SingInPage")
   }
   const handleNavigateLogIn = () => {
     navigation.navigate("DrawerStack")

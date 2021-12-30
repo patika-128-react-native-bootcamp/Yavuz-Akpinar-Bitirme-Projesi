@@ -1,18 +1,20 @@
 import React from "react";
 import { SafeAreaView, Text } from "react-native";
+import Input from "../../components/input/Input";
+import Button from "../../components/button/Button";
 
 const SingInPage = () => {
   return (
     <SafeAreaView>
       <Input
         placeholder="E-mail"
-        onChangeText={handleMail} />
+         />
       <Input
         placeholder="Password"
-        onChangeText={handlePassword} />
+       />
       <Input
         placeholder="Password Again"
-        onChangeText={handlePassword} />
+        />
       <Button title="LogIn" />
       <Button
         theme="outline"
