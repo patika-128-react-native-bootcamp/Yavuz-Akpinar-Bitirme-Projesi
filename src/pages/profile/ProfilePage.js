@@ -1,11 +1,15 @@
 import React from "react";
+import {useNavigation} from '@react-navigation/native'
 import { SafeAreaView, Text, View } from "react-native";
 import Button from "../../components/button/Button";
 import titles from "../../components/sources/titles.json"
 import auth from "@react-native-firebase/auth"
+import routes from "../../navigation/routes";
 
 
 const ProfilePage = () => {
+  const navigation = useNavigation()
+
   return(
     <SafeAreaView>
       <Text>
@@ -14,7 +18,7 @@ const ProfilePage = () => {
       {titles.map((title, index) => {
           return(
             <View key={index}>
-              <Button title={title}/>
+              <Button title={title} onPress={() => navigation.navigate(routes.NEWACTIVITY)}/>
             </View>
           )
           })

@@ -20,7 +20,7 @@ const LogInStack = () => {
       {
         !!isSignedIn ? (
           <>
-            <Stack.Screen name='DrawerStack' component={DrawerStack} />
+            <Stack.Screen options={{headerShown:false}} name='DrawerStack' component={DrawerStack} />
 
           </>
         ) : (

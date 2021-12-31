@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Alert} from "react-native";
+import { Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
 import LogInLayout from "./logInLayout/LogInLayout";
 
@@ -11,16 +11,14 @@ const LogInPage = () => {
   const handleNavigateSingIn = () => {
     navigation.navigate("SingInPage")
   }
-  const handleNavigateDrawer = () => {
-    navigation.navigate("DrawerStack")
-  }
-  const handleLogIn = async ({email, password}) => {
+
+  const handleLogIn = async ({ email, password }) => {
     try {
-      if(email && password) {
-       await auth().signInWithEmailAndPassword(email, password)
-      }else {
+      if (email && password) {
+        await auth().signInWithEmailAndPassword(email, password)
+      } else {
         return Alert.alert("olmadı")
-      } 
+      }
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         return Alert.alert('User not found!');
@@ -38,7 +36,7 @@ const LogInPage = () => {
   }
 
   return (
-    <LogInLayout onSubmit={handleLogIn} navigateSingIn={handleNavigateSingIn}/>
+    <LogInLayout onSubmit={handleLogIn} navigateSingIn={handleNavigateSingIn} />
   )
 }
 

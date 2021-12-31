@@ -10,7 +10,7 @@ const Drawer = createDrawerNavigator()
 
 const DrawerStack = () => {
   return(
-    <Drawer.Navigator>
+      <Drawer.Navigator screenOptions={{headerShown:false}}>
         <Drawer.Screen name='ProfileStack' component={ProfileStack}/>
         <Drawer.Screen name='NewActivity' component={NewActivityPage}/>
         <Drawer.Screen name='ActivityHistory' component={ActivityHistoryPage}/>
