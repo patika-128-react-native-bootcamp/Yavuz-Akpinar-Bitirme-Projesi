@@ -9,6 +9,7 @@ import routes from "../../navigation/routes";
 
 const ProfilePage = () => {
   const navigation = useNavigation()
+  
 
   return(
     <SafeAreaView>
