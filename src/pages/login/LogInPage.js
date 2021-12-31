@@ -14,18 +14,27 @@ const LogInPage = () => {
   const handleNavigateDrawer = () => {
     navigation.navigate("DrawerStack")
   }
-  const handleLogIn = ({email, password}) => {
+  const handleLogIn = async ({email, password}) => {
     try {
       if(email && password) {
-        auth().signInWithEmailAndPassword(email, password)
-        Alert.alert("Giriş yaptınız")
+       await auth().signInWithEmailAndPassword(email, password)
       }else {
-        Alert.alert("olmadı")
+        return Alert.alert("olmadı")
       } 
     } catch (error) {
-      console.log("alert")
+      if (error.code === 'auth/user-not-found') {
+        return Alert.alert('User not found!');
+      }
+      if (error.code === 'auth/invalid-email') {
+        return Alert.alert('That email address is invalid!');
+      }
+      if (password.length < 6) {
+        return Alert.alert('Password length must be at least 6');
+      }
+      else {
+        return Alert.alert('Password is wrong');
+      }
     }
-    console.log(data)
   }
 
   return (
