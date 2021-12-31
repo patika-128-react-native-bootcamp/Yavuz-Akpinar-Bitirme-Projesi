@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { SafeAreaView, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, SafeAreaView, Text, View } from "react-native";
 import MapView, { Marker } from 'react-native-maps'
 import styles from "./NewActivityPageStyles";
 import Geolocation from "@react-native-community/geolocation";
@@ -14,14 +14,25 @@ const NewActivityPage = () => {
     latitudeDelta: 0.02,
     longitudeDelta: 0.02,
   };
-  
-  Geolocation.getCurrentPosition(
-    (info) => setLocation(info.coords),
-    (error) => console.log(error),
-    {
-      enableHighAccuracy: true,
-    },
-  );
+
+  useEffect(() => {
+    
+    const watchId = Geolocation.watchPosition(
+      (position) => {
+        console.log('position',position);
+        setLocation(position.coords);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+    return () => {
+      if (watchId) {
+        Geolocation.clearWatch(watchId);
+      }
+    }
+  }, [])
+
   
   return(
     <SafeAreaView style={styles.outerContainer}>
