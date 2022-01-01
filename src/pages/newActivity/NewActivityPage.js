@@ -3,10 +3,13 @@ import { Dimensions, SafeAreaView, Text, View } from "react-native";
 import MapView, { Marker } from 'react-native-maps'
 import styles from "./NewActivityPageStyles";
 import Geolocation from "@react-native-community/geolocation";
+import Button from "../../components/button/Button";
+
 
 
 const NewActivityPage = () => {
   const [location, setLocation] = useState()
+  const [watchLocation, setWatchLocation] = useState()
 
   const initialRegion = {
     latitude: 41.0391683,
@@ -15,35 +18,40 @@ const NewActivityPage = () => {
     longitudeDelta: 0.02,
   };
 
-  useEffect(() => {
-    
-    const watchId = Geolocation.watchPosition(
+ 
+  Geolocation.watchPosition(
+    (position) => {
+      console.log('watch.position', position);
+      setWatchLocation(position.coords);
+    },
+    (error) => {
+      console.log(error);
+    },
+  );
+
+  const handleLocation = () => {
+    Geolocation.getCurrentPosition(
       (position) => {
-        console.log('position',position);
+        console.log('get.position', position);
         setLocation(position.coords);
       },
       (error) => {
         console.log(error);
-      },
-    );
-    return () => {
-      if (watchId) {
-        Geolocation.clearWatch(watchId);
-      }
-    }
-  }, [])
+      })
+  }
 
-  
-  return(
+
+  return (
     <SafeAreaView style={styles.outerContainer}>
-      <MapView 
-        showUserLocation={true}
+      <MapView
         style={styles.mapView}
-        initialRegion={initialRegion}>
-          {location !== undefined && <Marker
-            coordinate={location} ></Marker>}
-        </MapView>
-      <View style={styles.container}></View>
+        initialRegion={initialRegion}
+        showsUserLocation={true}>
+          {location !== undefined && <Marker coordinate={location}></Marker>}
+      </MapView>
+      <View style={styles.container}>
+        <Button onPress={handleLocation}></Button>
+      </View>
     </SafeAreaView>
   )
 }
