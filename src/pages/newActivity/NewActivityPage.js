@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, SafeAreaView, Text, View, Dimensions, Alert, ActivityIndicator } from "react-native";
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import styles from "./NewActivityPageStyles";
@@ -7,6 +7,7 @@ import Button from "../../components/button/Button";
 import database from '@react-native-firebase/database'
 import { BarChart, } from "react-native-chart-kit";
 import axios from "axios";
+import Icon from "react-native-vector-icons/MaterialIcons"
 
 const APIkey = 'd80c8ff3ae6c97309a86046f3ffd186a'
 
@@ -27,8 +28,8 @@ const NewActivityPage = () => {
   const barData = {
     labels: dt,
     datasets: [{
-        data: distanceBetween
-      }]
+      data: distanceBetween
+    }]
   }
 
   const initialRegion = {
@@ -154,42 +155,64 @@ const NewActivityPage = () => {
         showsUserLocation={true}
         userLocationPriority="balanced"
         onUserLocationChange={finishLocation === undefined && startLocation && handleUserTracking}>
-          {
-            startLocation !== undefined && <Marker coordinate={startLocation}></Marker>
-          }
-          {
-            finishLocation !== undefined && <Marker coordinate={finishLocation}></Marker>
-          }
-          {
-            watchLocation !== undefined && startLocation &&
-            <Polyline
-              miterLimit={10}
-              lineCap="square"
-              strokeWidth={4}
-              strokeColor="blue"
-              coordinates={watchLocation}>
-            </Polyline>
-          }
+        {
+          startLocation !== undefined && <Marker coordinate={startLocation}></Marker>
+        }
+        {
+          finishLocation !== undefined && <Marker coordinate={finishLocation}></Marker>
+        }
+        {
+          watchLocation !== undefined && startLocation &&
+          <Polyline
+            miterLimit={10}
+            lineCap="square"
+            strokeWidth={4}
+            strokeColor="blue"
+            coordinates={watchLocation}>
+          </Polyline>
+        }
       </MapView>
       <ScrollView
         style={styles.container}>
-        <Button title="Start" onPress={handleStart} ></Button>
-        <Button title="Finish" onPress={handleFinish}></Button>
-        <Button title="Clear" onPress={handleClear}></Button>
-        <Text>Total distance: {totalDistance}</Text>
-        <Text>Total Time : {distanceBetween.length}</Text>
-        <Text>Average Speed: {avarageSpeed !== undefined && avarageSpeed} </Text>
+        <View style={styles.buttonView}>
+          <Button theme="startButton" iconName="cancel" iconSize={35} iconColor="black" onPress={handleFinish}/>
+          <Button theme="startButton" iconName="add-box" iconSize={35} iconColor="crimson" onPress={handleStart}/>
+          <Button theme="startButton" iconName="cleaning-services" iconColor="steelblue" iconSize={35} onPress={handleClear}/>
+        </View>
+        <View style={styles.generalInfoView}>
+          <View style={styles.distanceView}>
+            <Text style={styles.text}>Total distance: {totalDistance.toFixed(2)}</Text>
+            <Icon name="directions-walk" size={30} />
+          </View>
+          <View style={styles.distanceView}>
+            <Text style={styles.text} >Total Time : {distanceBetween.length}</Text>
+            <Icon name="timer" size={30} />
+          </View>
+          <View style={styles.distanceView}>
+            <Text style={styles.text} >Average Speed: {avarageSpeed !== undefined && avarageSpeed.toFixed(2)} </Text>
+            <Icon name="shutter-speed" size={30} />
+          </View>
+        </View>
         {
           weatherData.base ?
-            <View>
-              <Text>Weather: {weatherData.weather[0].description}</Text>
-              <Text>Tempreture: {weatherData.main.temp - 273.15}</Text>
-              <Text>Feels Like: {weatherData.main.feels_like - 273.15}</Text>
-              <Text>Humidity: {weatherData.main.humidity}</Text>
-              <Text>Wind Speed: {weatherData.speed}</Text>
-              <Text>Wind Degree: {weatherData.wind.deg}</Text>
-            </View> 
-          : <ActivityIndicator />
+            <View style={styles.weatherView}>
+              <View>
+                <Icon name="wb-cloudy" size={30}></Icon>
+                <Text style={styles.text} >Weather: {weatherData.weather[0].description}</Text>
+              </View>
+              <View>
+                <Icon name="device-thermostat" size={30}></Icon>
+                <Text style={styles.text} >Tempreture: {(weatherData.main.temp - 273.15).toFixed(2)}</Text>
+                <Text style={styles.text} >Feels Like: {(weatherData.main.feels_like - 273.15).toFixed(2)}</Text>
+                <Text style={styles.text} >Humidity: {weatherData.main.humidity}</Text>
+              </View>
+              <View>
+                <Icon name="waves" size={30}></Icon>
+                <Text style={styles.text} >Wind Speed: {weatherData.speed}</Text>
+                <Text style={styles.text} >Wind Degree: {weatherData.wind.deg}</Text>
+              </View>
+            </View>
+            : <ActivityIndicator />
         }
         <ScrollView horizontal={true}
           contentOffset={{ x: 10000, y: 0 }}>

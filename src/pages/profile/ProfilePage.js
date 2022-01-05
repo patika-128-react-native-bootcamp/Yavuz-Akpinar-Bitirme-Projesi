@@ -19,7 +19,7 @@ const ProfilePage = () => {
       {titles.map((title, index) => {
           return(
             <View key={index}>
-              <Button title={title} onPress={() => navigation.navigate(routes.NEWACTIVITY)}/>
+              <Button iconName="add_circle" iconSize={20} iconColor={"white"} title={title} onPress={() => navigation.navigate(routes.NEWACTIVITY)}/>
             </View>
           )
           })

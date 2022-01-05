@@ -14,7 +14,7 @@ const ProfileStack = () => {
       <Stack.Screen name={routes.PROFILE} component={ProfilePage}/>
       <Stack.Screen name={routes.ACTIVITYHISTORY} component={ActivityHistoryPage}/>
       <Stack.Screen name={routes.LEADERBOARD} component={LeaderboardPage}/>
-      <Stack.Screen name={routes.NEWACTIVITY} component={NewActivityPage}/>
+      <Stack.Screen options={{headerShown:false}} name={routes.NEWACTIVITY} component={NewActivityPage}/>
     </Stack.Navigator>
   )
 }

@@ -8,7 +8,8 @@ const styles = {
       marginTop:20,
       alignItems:"center",
       padding:5,
-      borderRadius:10
+      borderRadius:10,
+      flexDirection:"row"
     },
     title:{
       fontSize:25
@@ -20,7 +21,25 @@ const styles = {
       margin:10,
       alignItems:"center",
       padding:5,
-      borderRadius:10
+      borderRadius:10,
+      flexDirection:"row"
+    },
+    title:{
+      fontSize:25,
+      color:"teal"
+    }
+  }),
+  startButton: StyleSheet.create({
+    container:{
+      backgroundColor:"darkorange",
+      margin:10,
+      alignItems:"center",
+      paddingBottom:10,
+      paddingTop:10,
+      paddingRight:30,
+      paddingLeft:30,
+      borderRadius:10,
+      flexDirection:"row"
     },
     title:{
       fontSize:25,
