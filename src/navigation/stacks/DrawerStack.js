@@ -5,12 +5,14 @@ import LeaderboardPage from "../../pages/leaderboard/LeaderboardPage";
 import NewActivityPage from "../../pages/newActivity/NewActivityPage";
 import ProfileStack from "./ProfileStack";
 import Icon from "react-native-vector-icons/MaterialIcons"
+import LocationProvider from "../../context/locationProvider";
 
 
 const Drawer = createDrawerNavigator()
 
 const DrawerStack = () => {
   return (
+    <LocationProvider>
     <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen
         options={{
@@ -45,6 +47,7 @@ const DrawerStack = () => {
         name='Leaderboard'
         component={LeaderboardPage} />
     </Drawer.Navigator>
+    </LocationProvider>
   )
 }
 

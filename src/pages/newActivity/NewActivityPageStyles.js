@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
   generalInfoView:{
     padding:10,
     backgroundColor:"powderblue",
-    margin:10,
-    borderRadius:15
   },
   buttonView:{
      flexDirection: "row", 
@@ -29,8 +27,6 @@ const styles = StyleSheet.create({
   weatherView:{
     padding:10,
     backgroundColor:"sandybrown",
-    margin:10,
-    borderRadius:15
   },
   distanceView:{
     flexDirection:"row",

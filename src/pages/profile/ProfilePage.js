@@ -17,9 +17,24 @@ const ProfilePage = () => {
         Profile Page
       </Text>
       <View>
-        <Button iconName="add-circle" iconSize={20} iconColor={"white"} title="New Activity" onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
-        <Button iconName="add-circle" iconSize={20} iconColor={"white"} title="Leaderboard" onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
-        <Button iconName="add-circle" iconSize={20} iconColor={"white"} title="Activity History" onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
+        <Button 
+          iconName="add-circle" 
+          iconSize={20} 
+          iconColor={"white"} 
+          title="New Activity" 
+          onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
+        <Button 
+          iconName="leaderboard" 
+          iconSize={20} 
+          iconColor={"white"} 
+          title="Leaderboard" 
+          onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
+        <Button 
+          iconName="history" 
+          iconSize={20} 
+          iconColor={"white"} 
+          title="Activity History" 
+          onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
       </View>
 
       <Button title="Log Out" onPress={() => auth().signOut()} />
