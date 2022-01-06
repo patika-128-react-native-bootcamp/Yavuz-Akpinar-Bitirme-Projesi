@@ -4,31 +4,31 @@ import MapView, { Marker, Polyline } from 'react-native-maps'
 import styles from "./NewActivityPageStyles";
 import Geolocation from "@react-native-community/geolocation";
 import Button from "../../components/button/Button";
-import database from '@react-native-firebase/database'
 import { BarChart, } from "react-native-chart-kit";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialIcons"
+import firestore from '@react-native-firebase/firestore';
 
 const APIkey = 'd80c8ff3ae6c97309a86046f3ffd186a'
+let interval = null;
 
 const NewActivityPage = () => {
   const [startLocation, setStartLocation] = useState()
   const [watchLocation, setWatchLocation] = useState([])
   const [finishLocation, setFinishLocation] = useState()
-  const [distanceBetween, setDistanceBetween] = useState([])
-  const [seconds, setSeconds] = useState(0)
+  const [distanceBetweenLocations, setDistanceBetweenLocations] = useState([])
+  const [distancePerMinute, setDistancePerMinute] = useState([])
   const [dt, setDt] = useState([])
   const [weatherData, setWeactherData] = useState({})
-
-  const sum = (a, b) => a + b
-  const totalDistance = distanceBetween.length >= 2 ? distanceBetween.reduce(sum) : 0
-
-  const avarageSpeed = dt ? totalDistance / dt[dt.length - 1] : 0
+  const [a, setA] = useState({
+    totalDistance: 0,
+    avarageSpeed: 0
+  })
 
   const barData = {
     labels: dt,
     datasets: [{
-      data: distanceBetween
+      data: distanceBetweenLocations
     }]
   }
 
@@ -39,6 +39,34 @@ const NewActivityPage = () => {
     longitudeDelta: 0.02,
   };
 
+  const sum = (a, b) => a + b
+
+  const runningData = {
+    AvarageSpeed: a.avarageSpeed ? a.avarageSpeed : 1,
+    TotalDistance: a.totalDistance ? a.totalDistance : 1,
+    TotalTime: dt ? dt.length : 1,
+    StartLocation: {
+      Latitude: startLocation ? startLocation.latitude : 1,
+      longitude: startLocation ? startLocation.longitude : 1
+    },
+    watchLocation: watchLocation ? watchLocation : 1
+  }
+
+  const handleFiresoreData = async () => {
+    try {
+      await firestore().collection('RunningData').add(runningData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleAvarageSpeedTotalDistance = () => {
+    setA({
+      totalDistance: distanceBetweenLocations.length >= 1 ? distanceBetweenLocations.reduce(sum) : 0,
+      avarageSpeed: a.totalDistance / dt[dt.length - 1]
+    })
+  }
+
   const handleStart = () => {
     Geolocation.getCurrentPosition(
       (position) => {
@@ -48,87 +76,69 @@ const NewActivityPage = () => {
       (error) => {
         console.log(error);
       },
-      {
-      }
     )
-    console.log(startLocation)
-    console.log('hava', weatherData)
-    let interval = setInterval(function (counter) {
+    interval = setInterval(function (counter) {
       return function () {
-        setDt([counter++, ...dt]);
-        console.log(counter)
-        setWatchLocation([])
+        dt.push(counter++);
+        setDt([counter, ...dt])
+        console.log(dt)
+        setDistancePerMinute([])
       };
-    }(0), 30000);
+    }(0), 20000);
   }
 
-  useEffect(() => { handleDistance() }, [dt])
+  useEffect(() => {
+    handleDistance(), handleAvarageSpeedTotalDistance()
+  }, [dt])
 
   const handleFinish = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        console.log('finish.position', position);
-        setFinishLocation(position.coords);
-      },
-      (error) => {
-        console.log(error);
-      },
-      {
-      }
-    )
-    handlerunTime(),
-      handleDistance()
+    setFinishLocation(watchLocation[watchLocation.length - 1])
+    clearInterval(interval)
+    handleFiresoreData()
   }
 
   const handleClear = () => {
     setStartLocation()
     setFinishLocation()
     setWatchLocation([])
-    setDistanceBetween([])
-    setSeconds()
+    setDistanceBetweenLocations([])
+    setDistancePerMinute([])
+    setDt([])
   }
 
   const handleDistance = () => {
-    if (watchLocation.length >= 2) {
+    if (distancePerMinute.length >= 2) {
       const R = 6371e3; // metres
-      const φ1 = watchLocation[0].latitude * Math.PI / 180 // φ, λ in radians
-      const φ2 = watchLocation[watchLocation.length - 1].latitude * Math.PI / 180
-      const Δφ = (watchLocation[watchLocation.length - 1].latitude - watchLocation[0].latitude) * Math.PI / 180
-      const Δλ = (watchLocation[watchLocation.length - 1].longitude - watchLocation[0].longitude) * Math.PI / 180
-      const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+      const φ1 = distancePerMinute[0].latitude * Math.PI / 180 // φ, λ in radians
+      const φ2 = distancePerMinute[distancePerMinute.length - 1].latitude * Math.PI / 180
+      const Δφ = (distancePerMinute[distancePerMinute.length - 1].latitude - distancePerMinute[0].latitude) * Math.PI / 180
+      const Δλ = (distancePerMinute[distancePerMinute.length - 1].longitude - distancePerMinute[0].longitude) * Math.PI / 180
+      const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
       const d = R * c // in metres
-      setDistanceBetween([d, ...distanceBetween])
-      console.log('bbbb', distanceBetween)
+      setDistanceBetweenLocations([d, ...distanceBetweenLocations])
+      console.log('bbbb', distanceBetweenLocations)
     } else {
       console.log("yeterli data yk ")
     }
   }
 
-  /*Geolocation.watchPosition(
-    (position) => {
-      setWatchLocation([{latitude:position.coords.latitude, longitude:position.coords.longitude}, ...watchLocation])
-      console.log('position',watchLocation)
-    },
-    (error) => {
-      console.log(error);
-    },
-    {enableHighAccuracy:true,
-    distanceFilter:10
-    }
-  );*/
   const handleUserTracking = async (e) => {
     console.log("aaaa", e.nativeEvent)
-    console.log(distanceBetween)
+    console.log(distanceBetweenLocations)
     setWatchLocation([{
       time: e.nativeEvent.coordinate.timestamp,
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude
     },
     ...watchLocation])
-    if (watchLocation.length < 2) {
+    setDistancePerMinute([{
+      time: e.nativeEvent.coordinate.timestamp,
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude
+    },
+    ...distancePerMinute])
+    if (watchLocation.length = 1) {
       try {
         const response = await axios.get(
           `https://api.openweathermap.org/data/2.5/weather?lat=${e.nativeEvent.coordinate.latitude
@@ -141,11 +151,6 @@ const NewActivityPage = () => {
       }
     }
   }
-  const handlerunTime = () => {
-    watchLocation.length >= 2 ?
-      setSeconds((watchLocation[0].time - watchLocation[watchLocation.length - 1].time) / (1000 + 10) / 60) : setSeconds(0)
-    return seconds
-  }
 
   return (
     <SafeAreaView style={styles.outerContainer}>
@@ -155,12 +160,8 @@ const NewActivityPage = () => {
         showsUserLocation={true}
         userLocationPriority="balanced"
         onUserLocationChange={finishLocation === undefined && startLocation && handleUserTracking}>
-        {
-          startLocation !== undefined && <Marker coordinate={startLocation}></Marker>
-        }
-        {
-          finishLocation !== undefined && <Marker coordinate={finishLocation}></Marker>
-        }
+        {startLocation !== undefined && <Marker coordinate={startLocation} />}
+        {finishLocation !== undefined && <Marker coordinate={watchLocation[watchLocation.length - 1]} />}
         {
           watchLocation !== undefined && startLocation &&
           <Polyline
@@ -168,28 +169,28 @@ const NewActivityPage = () => {
             lineCap="square"
             strokeWidth={4}
             strokeColor="blue"
-            coordinates={watchLocation}>
-          </Polyline>
+            coordinates={watchLocation}
+          />
         }
       </MapView>
       <ScrollView
         style={styles.container}>
         <View style={styles.buttonView}>
-          <Button theme="startButton" iconName="cancel" iconSize={35} iconColor="black" onPress={handleFinish}/>
-          <Button theme="startButton" iconName="add-box" iconSize={35} iconColor="crimson" onPress={handleStart}/>
-          <Button theme="startButton" iconName="cleaning-services" iconColor="steelblue" iconSize={35} onPress={handleClear}/>
+          <Button theme="startButton" iconName="cancel" iconSize={35} iconColor="black" onPress={handleFinish} />
+          <Button theme="startButton" iconName="add-box" iconSize={35} iconColor="crimson" onPress={handleStart} />
+          <Button theme="startButton" iconName="cleaning-services" iconColor="steelblue" iconSize={35} onPress={handleClear} />
         </View>
         <View style={styles.generalInfoView}>
           <View style={styles.distanceView}>
-            <Text style={styles.text}>Total distance: {totalDistance.toFixed(2)}</Text>
+            <Text style={styles.text}>Total distance: {a.totalDistance.toFixed(2)}</Text>
             <Icon name="directions-walk" size={30} />
           </View>
           <View style={styles.distanceView}>
-            <Text style={styles.text} >Total Time : {distanceBetween.length}</Text>
+            <Text style={styles.text} >Total Time : {distanceBetweenLocations.length}</Text>
             <Icon name="timer" size={30} />
           </View>
           <View style={styles.distanceView}>
-            <Text style={styles.text} >Average Speed: {avarageSpeed !== undefined && avarageSpeed.toFixed(2)} </Text>
+            <Text style={styles.text} >Average Speed: {a.avarageSpeed && a.avarageSpeed.toFixed(2)} </Text>
             <Icon name="shutter-speed" size={30} />
           </View>
         </View>
@@ -208,7 +209,7 @@ const NewActivityPage = () => {
               </View>
               <View>
                 <Icon name="waves" size={30}></Icon>
-                <Text style={styles.text} >Wind Speed: {weatherData.speed}</Text>
+                <Text style={styles.text} >Wind Speed: {weatherData.wind.speed}</Text>
                 <Text style={styles.text} >Wind Degree: {weatherData.wind.deg}</Text>
               </View>
             </View>
