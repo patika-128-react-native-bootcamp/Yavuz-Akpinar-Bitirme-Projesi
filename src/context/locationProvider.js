@@ -33,6 +33,9 @@ useEffect(() => {
       (error) => {
         console.log(error);
       },
+      {
+        enableHighAccuracy:false
+      }
     )
   }
   getLocationData().catch(console.error)

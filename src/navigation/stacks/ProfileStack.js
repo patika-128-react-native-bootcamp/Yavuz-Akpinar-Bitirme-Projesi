@@ -6,6 +6,7 @@ import NewActivityPage from "../../pages/newActivity/NewActivityPage";
 import ProfilePage from "../../pages/profile/ProfilePage";
 import routes from "../routes";
 import Icon from "react-native-vector-icons/MaterialIcons"
+import DetailPage from "../../pages/detailPage/DetailPage";
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ const ProfileStack = () => {
       <Stack.Screen name={routes.ACTIVITYHISTORY} component={ActivityHistoryPage}/>
       <Stack.Screen name={routes.LEADERBOARD} component={LeaderboardPage}/>
       <Stack.Screen options={{headerShown:false}} name={routes.NEWACTIVITY} component={NewActivityPage}/>
+      <Stack.Screen options={{headerShown:false}} name={routes.DETAILPAGE} component={DetailPage}/>
     </Stack.Navigator>
   )
 }
