@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const styles = {
   default : StyleSheet.create({
@@ -45,6 +45,22 @@ const styles = {
       fontSize:25,
       color:"teal"
     }
-  })
+  }),
+  profilePageButton:StyleSheet.create({
+    container:{
+      backgroundColor:"darkorange",
+      margin:10,
+      alignItems:"center",
+      paddingBottom:20,
+      borderRadius:10,
+      height: Dimensions.get("screen").height/10,
+      width: Dimensions.get("screen").width/4,
+      justifyContent:"center"
+    },
+    title:{
+      fontSize:15,
+      color:"teal"
+    }
+  }),
 }
 export default styles

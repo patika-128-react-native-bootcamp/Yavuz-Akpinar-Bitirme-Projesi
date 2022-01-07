@@ -34,7 +34,7 @@ const NewActivityLayout = ({
         showsUserLocation={true}
         userLocationPriority="balanced"
         onUserLocationChange={finishLocation === undefined && isActive && handleUserTracking}>
-        {isActive !== undefined && <Marker coordinate={startLocation} />}
+        {isActive === 1 && <Marker coordinate={startLocation} />}
         {finishLocation !== undefined && <Marker coordinate={watchLocation[watchLocation.length - 1]} />}
         {
           watchLocation !== undefined && 
