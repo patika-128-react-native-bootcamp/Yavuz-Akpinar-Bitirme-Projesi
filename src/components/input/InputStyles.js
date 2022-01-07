@@ -2,10 +2,9 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container:{
-    backgroundColor:"silver",
     marginLeft:10,
     marginRight:10,
-    borderRadius:10
+    borderBottomWidth:1
   },
   title:{
     padding:10

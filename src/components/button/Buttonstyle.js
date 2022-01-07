@@ -3,30 +3,33 @@ import { Dimensions, StyleSheet } from "react-native";
 const styles = {
   default : StyleSheet.create({
     container:{
-      backgroundColor:"teal",
+      backgroundColor:"orange",
       margin:10,
       marginTop:20,
       alignItems:"center",
       padding:5,
       borderRadius:10,
-      flexDirection:"row"
+      flexDirection:"row",
+      justifyContent:"center"
     },
     title:{
-      fontSize:25
+      fontSize:25,
+      color:"white",
     }
 }),
   outline: StyleSheet.create({
     container:{
-      backgroundColor:"silver",
+      backgroundColor:"white",
       margin:10,
       alignItems:"center",
       padding:5,
       borderRadius:10,
-      flexDirection:"row"
+      flexDirection:"row",
+      justifyContent:"center"
     },
     title:{
       fontSize:25,
-      color:"teal"
+      color:"orange",
     }
   }),
   startButton: StyleSheet.create({

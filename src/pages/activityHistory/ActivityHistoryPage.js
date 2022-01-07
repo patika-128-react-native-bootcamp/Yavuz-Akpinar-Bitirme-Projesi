@@ -4,6 +4,7 @@ import { FlatList, SafeAreaView, Text } from "react-native";
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import ActivityHistoryCard from "../../components/cards/ActivityHistoryCard";
 import useFetchFirestoreData from "../../hooks/useFetchFirestoreData";
+import styles from "./ActivityHistoryPageStyles";
 
 
 const ActivityHistoryPage = () => {
@@ -17,7 +18,7 @@ const ActivityHistoryPage = () => {
   )
 
   return(
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <FlatList data={firestoreData} renderItem={handleRenderItem} ></FlatList>
     </SafeAreaView>
   )
