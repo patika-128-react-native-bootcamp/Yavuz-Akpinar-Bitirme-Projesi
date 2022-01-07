@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import { LocationContext } from "../../context/locationProvider";
 import useFetch from "../../hooks/useFetch";
 import NewActivityLayout from "./layout/NewActivityLayout";
+import moment from "moment"
 
 let interval = null;
 
@@ -19,8 +20,6 @@ const NewActivityPage = () => {
   });
   const { weatherData, startLocation, setStartLocation } = useContext(LocationContext)
 
-  const sum = (a, b) => a + b
-
   const runningData = {
     AvarageSpeed: firestoreData.avarageSpeed ? firestoreData.avarageSpeed : 1,
     TotalDistance: firestoreData.totalDistance ? firestoreData.totalDistance : 1,
@@ -29,7 +28,18 @@ const NewActivityPage = () => {
       Latitude: startLocation ? startLocation.latitude : 1,
       longitude: startLocation ? startLocation.longitude : 1
     },
-    watchLocation: watchLocation ? watchLocation : 1
+    watchLocation: watchLocation ? watchLocation : 1,
+    date: moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss a'),
+    location: weatherData.name
+  }
+
+  const sum = (a, b) => a + b
+
+  const handleAvarageSpeedTotalDistance = () => {
+    setFirestoreData({
+      totalDistance: distanceBetweenLocations.length >= 1 ? distanceBetweenLocations.reduce(sum) : 0,
+      avarageSpeed: firestoreData.totalDistance / dt[dt.length - 1]
+    })
   }
 
   const handleFiresoreData = async () => {
@@ -38,13 +48,6 @@ const NewActivityPage = () => {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const handleAvarageSpeedTotalDistance = () => {
-    setFirestoreData({
-      totalDistance: distanceBetweenLocations.length >= 1 ? distanceBetweenLocations.reduce(sum) : 0,
-      avarageSpeed: firestoreData.totalDistance / dt[dt.length - 1]
-    })
   }
 
   const handleStart = () => {
