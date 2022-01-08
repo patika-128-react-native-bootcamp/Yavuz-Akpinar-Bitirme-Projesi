@@ -1,15 +1,17 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
 import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import Button from "../../components/button/Button";
 import firestore from '@react-native-firebase/firestore';
 import styles from "./DetailPageStyles";
+import { UserMailContext } from "../../context/userMailProvider";
 
 const DetailPage = () => {
   const route = useRoute()
   const item = route.params.item
   const navigation = useNavigation()
+  const {email} = useContext(UserMailContext)
 
   const initialRegion = {
     latitude: item.StartLocation.Latitude,
@@ -20,7 +22,7 @@ const DetailPage = () => {
 
   const handleRemoveActivity = () => {
     firestore()
-      .collection('RunningData')
+      .collection('.RunningData').doc(`${email}`).collection(`${email}`)
       .doc(item.id)
       .delete()
       .then(() => {
@@ -37,36 +39,40 @@ const DetailPage = () => {
         {item.StartLocation && <Marker coordinate={{
           latitude: item.StartLocation.Latitude,
           longitude: item.StartLocation.longitude
-        }}></Marker>}
-        {item.watchLocation && <Polyline 
+          }}
+        />}
+        {item.FinishLocation && <Marker coordinate={
+          item.FinishLocation} />}
+        {item.watchLocation && <Polyline
           miterLimit={10}
           lineCap="square"
           strokeWidth={4}
           strokeColor="blue"
-          coordinates={item.watchLocation}></Polyline>}
+          coordinates={item.watchLocation}
+        />}
       </MapView>
       <View style={styles.container}>
         <ScrollView>
-        <View style={styles.infoView}>
-          <Text style={styles.text}>Activity Date</Text>
-          <Text style={styles.text}>{item.date}</Text>
-        </View>
-        <View style={styles.infoView}> 
-          <Text style={styles.text}>Activity Location</Text>
-          <Text style={styles.text}>{item.location}</Text>
-        </View>
-        <View style={styles.infoView}>
-          <Text style={styles.text}>Activity Time</Text>
-          <Text style={styles.text}>{item.TotalTime}</Text>
-        </View>
-        <View style={styles.infoView}>
-          <Text style={styles.text}>Activity Distance</Text>
-          <Text style={styles.text}>{item.TotalDistance.toFixed(2)}</Text>
-        </View>
-        <View style={styles.infoView}>
-          <Text style={styles.text}>Avarage Speed</Text>
-          <Text style={styles.text}>{item.AvarageSpeed.toFixed(2)}</Text>
-        </View>
+          <View style={styles.infoView}>
+            <Text style={styles.text}>Activity Date</Text>
+            <Text style={styles.text}>{item.date}</Text>
+          </View>
+          <View style={styles.infoView}>
+            <Text style={styles.text}>Activity Location</Text>
+            <Text style={styles.text}>{item.location}</Text>
+          </View>
+          <View style={styles.infoView}>
+            <Text style={styles.text}>Activity Time</Text>
+            <Text style={styles.text}>{item.TotalTime}</Text>
+          </View>
+          <View style={styles.infoView}>
+            <Text style={styles.text}>Activity Distance</Text>
+            <Text style={styles.text}>{item.TotalDistance.toFixed(2)}</Text>
+          </View>
+          <View style={styles.infoView}>
+            <Text style={styles.text}>Avarage Speed</Text>
+            <Text style={styles.text}>{item.AvarageSpeed.toFixed(2)}</Text>
+          </View>
         </ScrollView>
       </View>
       <Button title="Remove Activity" onPress={handleRemoveActivity} />

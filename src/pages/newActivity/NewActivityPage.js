@@ -5,6 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import NewActivityLayout from "./layout/NewActivityLayout";
 import moment from "moment"
 import useShare from "../../hooks/useShare";
+import { UserMailContext } from "../../context/userMailProvider";
 
 let interval = null;
 
@@ -20,6 +21,8 @@ const NewActivityPage = () => {
     avarageSpeed: 0
   });
   const { weatherData, startLocation} = useContext(LocationContext)
+  const {email} = useContext(UserMailContext)
+  console.log(email)
 
   const runningData = {
     AvarageSpeed: firestoreData.avarageSpeed ? firestoreData.avarageSpeed : 1,
@@ -31,7 +34,8 @@ const NewActivityPage = () => {
     },
     watchLocation: watchLocation ? watchLocation : 1,
     date: moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss a'),
-    location: weatherData.name
+    location: weatherData.name,
+    FinishLocation: watchLocation && watchLocation[watchLocation.length - 1]
   }
 
   const sum = (a, b) => a + b
@@ -45,9 +49,18 @@ const NewActivityPage = () => {
 
   const handleFiresoreData = async () => {
     try {
-      await firestore().collection('RunningData').add(runningData)
+      await firestore().collection(`.RunningData`).doc(`${email}`).collection(`${email}`).add(runningData)
+      
     } catch (error) {
       console.log(error)
+    }
+    try {
+      firestore().collection('TotalDistance').add({
+        user:email, 
+        TotalDistance: firestoreData.totalDistance ? firestoreData.totalDistance : 1 })
+    } catch (error) {
+      console.log(error)
+      
     }
   }
 
@@ -99,7 +112,8 @@ const NewActivityPage = () => {
     }
   }
 
-  const handleUserTracking = async (e) => {
+  // I needed two states for the same data because i am using one of them for the calculating distance per minute and for calculations it must return to zero point after one minute.Other one for the polyyline 
+  const handleUserTracking = (e) => {
     console.log("aaaa", e.nativeEvent)
     console.log(distanceBetweenLocations)
     setWatchLocation([{

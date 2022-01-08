@@ -1,12 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
 import { Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
 import LogInLayout from "./logInLayout/LogInLayout";
+import { UserMailContext } from "../../context/userMailProvider";
 
 const LogInPage = () => {
-
   const navigation = useNavigation()
+  const {setEmail} = useContext(UserMailContext)
 
   const handleNavigateSingIn = () => {
     navigation.navigate("SingInPage")
@@ -16,6 +17,7 @@ const LogInPage = () => {
     try {
       if (email && password) {
         await auth().signInWithEmailAndPassword(email, password)
+        setEmail(email)
       } else {
         return Alert.alert("olmadı")
       }

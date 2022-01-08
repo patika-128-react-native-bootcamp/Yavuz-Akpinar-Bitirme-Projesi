@@ -8,7 +8,7 @@ import styles from "./LeaderboardPageStyles";
 
 
 const LeaderboardPage = () => {
-  const {firestoreData} = useFetchFirestoreData()
+  const {firestoreDataAll} = useFetchFirestoreData()
 
   const navigation = useNavigation()
 
@@ -19,7 +19,7 @@ const LeaderboardPage = () => {
   return(
     <SafeAreaView style={styles.container}>
       <FlatList 
-        data={firestoreData.sort((a, b) => b.TotalDistance - a.TotalDistance)} 
+        data={firestoreDataAll} 
         renderItem={handleRenderItem} 
       />
     </SafeAreaView>

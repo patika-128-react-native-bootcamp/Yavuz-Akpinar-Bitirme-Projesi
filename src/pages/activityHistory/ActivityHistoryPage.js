@@ -9,12 +9,11 @@ import styles from "./ActivityHistoryPageStyles";
 
 const ActivityHistoryPage = () => {
   const {firestoreData} = useFetchFirestoreData()
-  console.log(firestoreData)
 
   const navigation = useNavigation()
 
-  const handleRenderItem = ({item}) => (
-    <ActivityHistoryCard item={item} onPress={() =>  navigation.navigate('Detail', {item:item}) }/>
+  const handleRenderItem = ({item, index}) => (
+    <ActivityHistoryCard item={item} index={index + 1} onPress={() =>  navigation.navigate('Detail', {item:item}) }/>
   )
 
   return(
