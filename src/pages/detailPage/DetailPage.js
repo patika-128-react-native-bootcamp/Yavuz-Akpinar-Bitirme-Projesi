@@ -38,7 +38,12 @@ const DetailPage = () => {
           latitude: item.StartLocation.Latitude,
           longitude: item.StartLocation.longitude
         }}></Marker>}
-        {item.watchLocation && <Polyline coordinates={item.watchLocation}></Polyline>}
+        {item.watchLocation && <Polyline 
+          miterLimit={10}
+          lineCap="square"
+          strokeWidth={4}
+          strokeColor="blue"
+          coordinates={item.watchLocation}></Polyline>}
       </MapView>
       <View style={styles.container}>
         <ScrollView>

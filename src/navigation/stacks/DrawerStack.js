@@ -13,40 +13,48 @@ const Drawer = createDrawerNavigator()
 const DrawerStack = () => {
   return (
     <LocationProvider>
-    <Drawer.Navigator screenOptions={{ headerShown: false }}>
-      <Drawer.Screen
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="account-circle" size={size} color={color} />
-          )
-        }}
-        name='Profile Page'
-        component={ProfileStack} />
-      <Drawer.Screen
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="add-circle-outline" size={size} color={color} />
-          )
-        }}
-        name='New Activity'
-        component={NewActivityPage} />
-      <Drawer.Screen
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="history" size={size} color={color} />
-          )
-        }}
-        name='Activity History'
-        component={ActivityHistoryPage} />
-      <Drawer.Screen
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Icon name="leaderboard" size={size} color={color} />
-          )
-        }}
-        name='Leaderboard'
-        component={LeaderboardPage} />
-    </Drawer.Navigator>
+      <Drawer.Navigator screenOptions={{ headerShown: false }}>
+        <Drawer.Screen
+          options={{
+            drawerActiveTintColor: "orange",
+            headerPressColor: "orange",
+            drawerIcon: ({ color, size }) => (
+              <Icon name="account-circle" size={size} color={color} />
+            )
+          }}
+          name='Profile Page'
+          component={ProfileStack} />
+        <Drawer.Screen
+          options={{
+            drawerActiveTintColor: "orange",
+            headerPressColor: "orange",
+            drawerIcon: ({ color, size }) => (
+              <Icon name="add-circle-outline" size={size} color={color} />
+            )
+          }}
+          name='New Activity'
+          component={NewActivityPage} />
+        <Drawer.Screen
+          options={{
+            drawerActiveTintColor: "orange",
+            headerPressColor: "orange",
+            drawerIcon: ({ color, size }) => (
+              <Icon name="history" size={size} color={color} />
+            )
+          }}
+          name='Activity History'
+          component={ActivityHistoryPage} />
+        <Drawer.Screen
+          options={{
+            drawerActiveTintColor: "orange",
+            headerPressColor: "orange",
+            drawerIcon: ({ color, size }) => (
+              <Icon name="leaderboard" size={size} color={color} />
+            )
+          }}
+          name='Leaderboard'
+          component={LeaderboardPage} />
+      </Drawer.Navigator>
     </LocationProvider>
   )
 }

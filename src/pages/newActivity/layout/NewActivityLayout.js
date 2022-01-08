@@ -6,7 +6,6 @@ import Icon from "react-native-vector-icons/MaterialIcons"
 import styles from "./../NewActivityPageStyles";
 import { ScrollView, SafeAreaView, Text, View, Dimensions, ActivityIndicator } from "react-native";
 
-
 const NewActivityLayout = ({
   dt, distanceBetweenLocations, finishLocation, isActive,
   handleUserTracking, startLocation, watchLocation,
@@ -28,25 +27,6 @@ const NewActivityLayout = ({
   }
   return (
     <SafeAreaView style={styles.outerContainer}>
-      <View style={styles.buttonView}>
-        <Button theme="startButton" title="Stop" onPress={handleFinish} />
-        <Button theme="startButton" title="Start" onPress={handleStart} />
-        <Button theme="startButton" title="Clear" onPress={handleClear} />
-      </View>
-      <View style={styles.generalInfoView}>
-        <View style={styles.distanceView}>
-          <Icon name="directions-walk" size={30} color="white" />
-          <Text style={styles.text}>{firestoreData.totalDistance.toFixed(2)} m</Text>
-        </View>
-        <View style={styles.distanceView}>
-          <Icon name="timer" size={30} color="white" />
-          <Text style={styles.text} >{distanceBetweenLocations.length} min</Text>
-        </View>
-        <View style={styles.distanceView}>
-          <Icon name="shutter-speed" size={30} color="white" />
-          <Text style={styles.text} >{firestoreData.avarageSpeed && firestoreData.avarageSpeed.toFixed(2)} m/min </Text>
-        </View>
-      </View>
       <MapView
         style={styles.mapView}
         initialRegion={initialRegion}
@@ -66,23 +46,42 @@ const NewActivityLayout = ({
           />
         }
       </MapView>
+      <View style={styles.buttonView}>
+        <Button theme="startButton" title="Stop" onPress={handleFinish} />
+        <Button theme="startButton" title="Start" onPress={handleStart} />
+        <Button theme="startButton" title="Clear" onPress={handleClear} />
+      </View>
+      <View style={styles.generalInfoView}>
+        <View style={styles.distanceView}>
+          <Icon name="directions-walk" size={40} color="white" />
+          <Text style={styles.text}>{firestoreData.totalDistance.toFixed(2)} m</Text>
+        </View>
+        <View style={styles.distanceView}>
+          <Icon name="timer" size={40} color="white" />
+          <Text style={styles.text} >{distanceBetweenLocations.length} min</Text>
+        </View>
+        <View style={styles.distanceView}>
+          <Icon name="shutter-speed" size={40} color="white" />
+          <Text style={styles.text} >{firestoreData.avarageSpeed && firestoreData.avarageSpeed.toFixed(2)} m/min </Text>
+        </View>
+      </View>
       <View style={styles.container}>
         <ScrollView>
           {
             weatherData !== undefined ?
               <View style={styles.weatherView}>
-                <View>
-                  <Icon name="wb-cloudy" size={30}></Icon>
+                <View style={styles.skyInfoView}>
+                  <Icon name="wb-cloudy" size={40} color="white"></Icon>
                   <Text style={styles.text} >Weather: {weatherData.weather[0].description}</Text>
                 </View>
-                <View>
-                  <Icon name="device-thermostat" size={30}></Icon>
+                <View style={styles.tempreture}>
+                  <Icon name="device-thermostat" size={40} color="white"></Icon>
                   <Text style={styles.text} >Tempreture: {(weatherData.main.temp - 273.15).toFixed(2)}</Text>
                   <Text style={styles.text} >Feels Like: {(weatherData.main.feels_like - 273.15).toFixed(2)}</Text>
                   <Text style={styles.text} >Humidity: {weatherData.main.humidity}</Text>
                 </View>
-                <View>
-                  <Icon name="waves" size={30}></Icon>
+                <View style={styles.wind}>
+                  <Icon name="waves" size={40} color="white"></Icon>
                   <Text style={styles.text} >Wind Speed: {weatherData.wind.speed}</Text>
                   <Text style={styles.text} >Wind Degree: {weatherData.wind.deg}</Text>
                 </View>
@@ -97,27 +96,9 @@ const NewActivityLayout = ({
               height={220}
               yAxisSuffix=" m"
               yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "black",
-                backgroundGradientTo: "#ffa726",
-                decimalPlaces: 2,
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16
-                },
-                propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
-                  stroke: "silver"
-                }
-              }}
+              chartConfig={styles.chartBarConfig}
               bezier
-              style={{
-                marginVertical: 8,
-                borderRadius: 16
-              }}
+              style={styles.chartBarStyle}
             />
           </ScrollView>
         </ScrollView>
