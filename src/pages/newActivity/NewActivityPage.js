@@ -4,6 +4,7 @@ import { LocationContext } from "../../context/locationProvider";
 import useFetch from "../../hooks/useFetch";
 import NewActivityLayout from "./layout/NewActivityLayout";
 import moment from "moment"
+import useShare from "../../hooks/useShare";
 
 let interval = null;
 
@@ -18,7 +19,7 @@ const NewActivityPage = () => {
     totalDistance: 0,
     avarageSpeed: 0
   });
-  const { weatherData, startLocation, setStartLocation } = useContext(LocationContext)
+  const { weatherData, startLocation} = useContext(LocationContext)
 
   const runningData = {
     AvarageSpeed: firestoreData.avarageSpeed ? firestoreData.avarageSpeed : 1,
@@ -70,6 +71,11 @@ const NewActivityPage = () => {
     setFinishLocation(watchLocation[watchLocation.length - 1])
     clearInterval(interval)
     handleFiresoreData()
+    useShare({
+      distance:firestoreData.totalDistance.toFixed(2),
+      time : dt.length, 
+      speed: firestoreData.avarageSpeed.toFixed(2),
+      location: weatherData.name} )
   }
 
   const handleClear = () => {
