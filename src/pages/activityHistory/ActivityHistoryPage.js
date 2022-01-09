@@ -3,6 +3,7 @@ import React from "react";
 import { FlatList, SafeAreaView } from "react-native";
 import ActivityHistoryCard from "../../components/cards/ActivityHistoryCard/ActivityHistoryCard";
 import useFetchFirestoreData from "../../hooks/useFetchFirestoreData";
+import routes from "../../navigation/routes";
 import styles from "./ActivityHistoryPageStyles";
 
 
@@ -14,7 +15,7 @@ const ActivityHistoryPage = () => {
   const handleRenderItem = ({ item, index }) => (
     <ActivityHistoryCard
       item={item} index={index + 1}
-      onPress={() => navigation.navigate('Detail', { item: item })}
+      onPress={() => navigation.navigate(routes.DETAILPAGE, { item: item })}
     />
   )
 

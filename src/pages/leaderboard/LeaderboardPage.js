@@ -16,7 +16,7 @@ const LeaderboardPage = () => {
   return(
     <SafeAreaView style={styles.container}>
       <FlatList 
-        data={firestoreDataAll} 
+        data={firestoreDataAll.sort((a, b) => b.TotalDistance - a.TotalDistance)} 
         renderItem={handleRenderItem} 
       />
     </SafeAreaView>

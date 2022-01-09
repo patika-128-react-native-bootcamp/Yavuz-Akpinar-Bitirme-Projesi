@@ -5,15 +5,22 @@ import { UserMailContext } from "../context/userMailProvider"
 const useFetchFirestoreData = () => {
   const [firestoreData, setFirestoreData] = useState([])
   const [firestoreDataAll, setFirestoreDataAll] = useState([])
-  const {email} = useContext(UserMailContext)
- 
- const fetchData = async () => {
+  const { email } = useContext(UserMailContext)
+
+  const fetchData = async () => {
     try {
-      const response = await firestore().collection(`.RunningData`).doc(`${email}`).collection(`${email}`).get()
+      const response = await firestore()
+        .collection(`.RunningData`)
+        .doc(`${email}`)
+        .collection(`${email}`)
+        .get()
       setFirestoreData(response.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
       }))
-      const responseLeaderboard = await firestore().collection(`TotalDistance`).get()
+      const responseLeaderboard = await firestore()
+        .collection(`TotalDistance`)
+        .limit(50)
+        .get()
       setFirestoreDataAll(responseLeaderboard.docs.map((doc) => {
         return { ...doc.data(), id: doc.id }
       }))

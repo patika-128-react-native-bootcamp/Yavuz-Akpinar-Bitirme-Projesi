@@ -42,7 +42,7 @@ const NewActivityPage = () => {
   const handleAvarageSpeedTotalDistance = () => {
     setFirestoreData({
       totalDistance: distanceBetweenLocations.length >= 1 ? distanceBetweenLocations.reduce(sum) : 0,
-      avarageSpeed: firestoreData.totalDistance / chartTime[chartTime.length - 1]
+      avarageSpeed: firestoreData.totalDistance && firestoreData.totalDistance / chartTime[chartTime.length - 1]
     })
   }
 

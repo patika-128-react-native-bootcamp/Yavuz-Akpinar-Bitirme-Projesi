@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     fontWeight:"900"
   },
   user:{
-    color:"white"
+    color:"white",
+    paddingTop:10
   }
 })
 

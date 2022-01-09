@@ -22,7 +22,7 @@ const LogInPage = () => {
         setEmail(email)
         AsyncStorage.setItem('@EMAIL', email)
       } else {
-        return Alert.alert("olmadı")
+        return Alert.alert("Informations cannot be left blank ")
       }
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
@@ -35,7 +35,7 @@ const LogInPage = () => {
         return Alert.alert('Password length must be at least 6');
       }
       else {
-        return Alert.alert('Password is wrong');
+        return Alert.alert('Invalid password');
       }
     }
   }

@@ -1,11 +1,11 @@
 export default {
   PROFILE:"ProfilePage",
-  NEWACTIVITY:"NewActivityPage",
-  LEADERBOARD:"LeaderboardPage",
-  ACTIVITYHISTORY:"ActivityHistoryPage",
+  NEWACTIVITY:"New Activity",
+  LEADERBOARD:"Leaderboard",
+  ACTIVITYHISTORY:"Activity History",
   DETAILPAGE:"Detail",
   DRAWERSTACK:"DrawerStack",
   LOGIN:"LogInPage",
   SINGIN:"SingInPage",
-  PROFILESTACK:"Profilestack"
+  PROFILESTACK:"Profile"
 };

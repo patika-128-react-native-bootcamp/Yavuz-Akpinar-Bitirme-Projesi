@@ -15,12 +15,15 @@ const styles = StyleSheet.create({
     padding:10,
     margin:10,
     borderRadius:20,
-    backgroundColor:"orange"
+    backgroundColor:"orange",
+    borderWidth:1,
+    borderColor:"white"
   },
   text:{
     fontSize:20,
     padding:5,
-    color:"white"
+    color:"white",
+
   }
 })
 

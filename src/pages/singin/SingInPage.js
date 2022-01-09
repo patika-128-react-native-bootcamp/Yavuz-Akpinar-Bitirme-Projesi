@@ -24,7 +24,7 @@ const SingInPage = () => {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          Alert.alert('User account created, now you can log in')
+          Alert.alert('User account created')
           handleNavigateGoBack()
           const account = {
             email,

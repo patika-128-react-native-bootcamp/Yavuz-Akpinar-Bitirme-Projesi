@@ -43,7 +43,10 @@ const DetailPage = () => {
         }}
         />}
         {item.FinishLocation && <Marker
-          coordinate={item.FinishLocation} />}
+          coordinate={{
+            latitude: item.FinishLocation.latitude,
+            longitude: item.FinishLocation.longitude
+          }} />}
         {item.watchLocation && <Polyline
           miterLimit={10}
           lineCap="square"

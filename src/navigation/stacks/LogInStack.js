@@ -18,7 +18,7 @@ const LogInStack = () => {
   }, [])
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       {
         !!isSignedIn ? (
           <>
