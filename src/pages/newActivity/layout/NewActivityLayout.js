@@ -34,7 +34,7 @@ const NewActivityLayout = ({
         initialRegion={initialRegion}
         showsUserLocation={true}
         userLocationPriority="balanced"
-        onUserLocationChange={finishLocation === undefined && isActive && handleUserTracking}>
+        onUserLocationChange={finishLocation === undefined && isActive ? handleUserTracking : null}>
         {isActive === 1 && <Marker coordinate={startLocation} />}
         {finishLocation !== undefined && <Marker coordinate={{
           latitude: watchLocation[watchLocation.length - 1].latitude,
