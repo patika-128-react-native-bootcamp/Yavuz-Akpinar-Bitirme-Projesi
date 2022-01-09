@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import firestore from '@react-native-firebase/firestore';
 import { LocationContext } from "../../context/locationProvider";
 import useDistanceCalculation from "../../hooks/useDistanceCalculation";
 import NewActivityLayout from "./layout/NewActivityLayout";
-import moment from "moment"
 import useShare from "../../hooks/useShare";
 import { UserMailContext } from "../../context/userMailProvider";
+import useFirestoreSendData from "../../hooks/useFirestoreSendData";
 
 let interval = null;
 
@@ -23,20 +22,6 @@ const NewActivityPage = () => {
   const { weatherData, startLocation } = useContext(LocationContext)
   const { email } = useContext(UserMailContext)
 
-  const runningData = {
-    AvarageSpeed: firestoreData.avarageSpeed ? firestoreData.avarageSpeed : 1,
-    TotalDistance: firestoreData.totalDistance ? firestoreData.totalDistance : 1,
-    TotalTime: chartTime ? chartTime.length : 1,
-    StartLocation: {
-      Latitude: startLocation ? startLocation.latitude : 1,
-      longitude: startLocation ? startLocation.longitude : 1
-    },
-    watchLocation: watchLocation ? watchLocation : 1,
-    date: moment().utcOffset('+03').format('YYYY-MM-DD hh:mm:ss a'),
-    location: weatherData.name,
-    FinishLocation: watchLocation && watchLocation[watchLocation.length - 1]
-  }
-
   const sum = (a, b) => a + b
 
   const handleAvarageSpeedTotalDistance = () => {
@@ -44,22 +29,6 @@ const NewActivityPage = () => {
       totalDistance: distanceBetweenLocations.length >= 1 ? distanceBetweenLocations.reduce(sum) : 0,
       avarageSpeed: firestoreData.totalDistance && firestoreData.totalDistance / chartTime[chartTime.length - 1]
     })
-  }
-
-  const handleFiresoreData = async () => {
-    try {
-      await firestore().collection(`.RunningData`).doc(`${email}`).collection(`${email}`).add(runningData)
-    } catch (error) {
-      console.log(error)
-    }
-    try {
-      firestore().collection('TotalDistance').add({
-        user: email,
-        TotalDistance: firestoreData.totalDistance ? firestoreData.totalDistance : 1
-      })
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   const handleStart = () => {
@@ -70,7 +39,7 @@ const NewActivityPage = () => {
         setChartTime([counter, ...chartTime])
         setDistancePerMinute([])
       };
-    }(0), 60000);
+    }(0), 20000);
   }
 
   useEffect(() => {
@@ -81,7 +50,7 @@ const NewActivityPage = () => {
     setFinishLocation(watchLocation[watchLocation.length - 1])
     clearInterval(interval)
     setIsActive()
-    handleFiresoreData()
+    useFirestoreSendData(email, startLocation, firestoreData, chartTime, watchLocation, weatherData)
     useShare({
       distance: firestoreData.totalDistance.toFixed(2),
       time: chartTime.length,
