@@ -1,21 +1,21 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useNavigation } from '@react-navigation/native'
 import { Image, SafeAreaView, Text, View } from "react-native";
-import Button from "../../components/button/Button";
 import auth from "@react-native-firebase/auth"
 import routes from "../../navigation/routes";
+
+import Button from "../../components/button/Button";
 import useFetchFirestoreData from "../../hooks/useFetchFirestoreData";
 import styles from "./ProfilePageStyles";
+import { UserMailContext } from "../../context/userMailProvider";
 
 const ProfilePage = () => {
   const navigation = useNavigation()
   const { firestoreData } = useFetchFirestoreData()
+  const {email} = useContext(UserMailContext)
 
   const distance = firestoreData.reduce((a, b) => (a + b.TotalDistance), 0) /1000
   const time = firestoreData.reduce((a, b) => (a + b.TotalTime), 0)
-  console.log('distance', distance)
-  console.log('time', time)
-  console.log('length', firestoreData.length)
 
   return (
     <SafeAreaView style={styles.outerContainer}>
@@ -23,9 +23,7 @@ const ProfilePage = () => {
         <Image 
           source={{uri:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}}
           style={styles.image}></Image>
-        <Text>
-          Profile Page
-        </Text>
+        <Text style={styles.user}>User: {email}</Text>
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.buttonView}>
@@ -44,7 +42,7 @@ const ProfilePage = () => {
               iconName="leaderboard"
               iconSize={40}
               iconColor={"white"}
-              onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
+              onPress={() => navigation.navigate(routes.LEADERBOARD)} />
             <Text>Leaderboard</Text>
           </View>
           <View style={styles.buttonInnerView}>
@@ -53,7 +51,7 @@ const ProfilePage = () => {
               iconName="history"
               iconSize={40}
               iconColor={"white"}
-              onPress={() => navigation.navigate(routes.NEWACTIVITY)} />
+              onPress={() => navigation.navigate(routes.ACTIVITYHISTORY)} />
             <Text>Activity History</Text>
           </View>
         </View>
@@ -72,7 +70,6 @@ const ProfilePage = () => {
           </View>
           <Button title="Log Out" onPress={() => auth().signOut()} />
         </View>
-
       </View>
     </SafeAreaView>
   )

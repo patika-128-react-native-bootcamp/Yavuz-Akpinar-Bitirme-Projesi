@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
-import LogInLayout from "./logInLayout/LogInLayout";
-import { UserMailContext } from "../../context/userMailProvider";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import LogInLayout from "./layout/LogInLayout";
+import { UserMailContext } from "../../context/userMailProvider";
 
 const LogInPage = () => {
   const navigation = useNavigation()
-  const {setEmail} = useContext(UserMailContext)
+  const { setEmail } = useContext(UserMailContext)
 
   const handleNavigateSingIn = () => {
     navigation.navigate("SingInPage")

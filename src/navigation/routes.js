@@ -3,5 +3,9 @@ export default {
   NEWACTIVITY:"NewActivityPage",
   LEADERBOARD:"LeaderboardPage",
   ACTIVITYHISTORY:"ActivityHistoryPage",
-  DETAILPAGE:"Detail"
+  DETAILPAGE:"Detail",
+  DRAWERSTACK:"DrawerStack",
+  LOGIN:"LogInPage",
+  SINGIN:"SingInPage",
+  PROFILESTACK:"Profilestack"
 };

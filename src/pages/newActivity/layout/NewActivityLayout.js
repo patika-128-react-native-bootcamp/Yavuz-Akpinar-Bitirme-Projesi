@@ -1,13 +1,14 @@
 import MapView, { Marker, Polyline } from 'react-native-maps'
 import React from 'react'
-import Button from "../../../components/button/Button";
+import { ScrollView, SafeAreaView, Text, View, Dimensions, ActivityIndicator } from "react-native";
 import { BarChart, } from "react-native-chart-kit";
 import Icon from "react-native-vector-icons/MaterialIcons"
+
+import Button from "../../../components/button/Button";
 import styles from "./../NewActivityPageStyles";
-import { ScrollView, SafeAreaView, Text, View, Dimensions, ActivityIndicator } from "react-native";
 
 const NewActivityLayout = ({
-  dt, distanceBetweenLocations, finishLocation, isActive,
+  chartTime, distanceBetweenLocations, finishLocation, isActive,
   handleUserTracking, startLocation, watchLocation,
   handleFinish, handleStart, handleClear,
   firestoreData, weatherData }) => {
@@ -20,11 +21,12 @@ const NewActivityLayout = ({
   };
 
   const barData = {
-    labels: dt,
+    labels: chartTime,
     datasets: [{
       data: distanceBetweenLocations
     }]
   }
+
   return (
     <SafeAreaView style={styles.outerContainer}>
       <MapView
@@ -47,9 +49,14 @@ const NewActivityLayout = ({
         }
       </MapView>
       <View style={styles.buttonView}>
-        <Button theme="startButton" title="Stop" onPress={handleFinish} />
-        <Button theme="startButton" title="Start" onPress={handleStart} />
-        <Button theme="startButton" title="Clear" onPress={handleClear} />
+        <Button
+          theme={isActive ? "startButton" : "startButtonDisabled"} title="Stop" disabled={isActive ? false : true}
+          onPress={handleFinish} />
+        <Button
+          theme={isActive ? "startButtonDisabled" : "startButton"} title="Start" disabled={isActive && true}
+          onPress={handleStart} />
+        <Button
+          theme="startButton" title="Clear" onPress={handleClear} />
       </View>
       <View style={styles.generalInfoView}>
         <View style={styles.distanceView}>
@@ -86,16 +93,20 @@ const NewActivityLayout = ({
                   <Text style={styles.text} >Wind Degree: {weatherData.wind.deg}</Text>
                 </View>
               </View>
-            : <ActivityIndicator />
+              : <ActivityIndicator />
           }
           <ScrollView horizontal={true}
             contentOffset={{ x: 10000, y: 0 }}>
             <BarChart
               data={barData}
-              width={barData.labels.length >= 6 ? barData.labels.length * Dimensions.get("screen").width / 7 : Dimensions.get("screen").width}
+              width={
+                barData.labels.length >= 6 ?
+                  barData.labels.length * Dimensions.get("screen").width / 7
+                  : Dimensions.get("screen").width
+              }
               height={220}
               yAxisSuffix=" m"
-              yAxisInterval={1} // optional, defaults to 1
+              yAxisInterval={1}
               chartConfig={styles.chartBarConfig}
               bezier
               style={styles.chartBarStyle}

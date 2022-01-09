@@ -2,16 +2,17 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { Alert, SafeAreaView, ScrollView, Text, View } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import Button from "../../components/button/Button";
 import firestore from '@react-native-firebase/firestore';
-import styles from "./DetailPageStyles";
+
 import { UserMailContext } from "../../context/userMailProvider";
+import Button from "../../components/button/Button";
+import styles from "./DetailPageStyles";
 
 const DetailPage = () => {
   const route = useRoute()
   const item = route.params.item
   const navigation = useNavigation()
-  const {email} = useContext(UserMailContext)
+  const { email } = useContext(UserMailContext)
 
   const initialRegion = {
     latitude: item.StartLocation.Latitude,
@@ -39,10 +40,10 @@ const DetailPage = () => {
         {item.StartLocation && <Marker coordinate={{
           latitude: item.StartLocation.Latitude,
           longitude: item.StartLocation.longitude
-          }}
+        }}
         />}
-        {item.FinishLocation && <Marker coordinate={
-          item.FinishLocation} />}
+        {item.FinishLocation && <Marker
+          coordinate={item.FinishLocation} />}
         {item.watchLocation && <Polyline
           miterLimit={10}
           lineCap="square"
@@ -63,15 +64,15 @@ const DetailPage = () => {
           </View>
           <View style={styles.infoView}>
             <Text style={styles.text}>Activity Time</Text>
-            <Text style={styles.text}>{item.TotalTime}</Text>
+            <Text style={styles.text}>{item.TotalTime} min</Text>
           </View>
           <View style={styles.infoView}>
             <Text style={styles.text}>Activity Distance</Text>
-            <Text style={styles.text}>{item.TotalDistance.toFixed(2)}</Text>
+            <Text style={styles.text}>{item.TotalDistance.toFixed(2)} m</Text>
           </View>
           <View style={styles.infoView}>
             <Text style={styles.text}>Avarage Speed</Text>
-            <Text style={styles.text}>{item.AvarageSpeed.toFixed(2)}</Text>
+            <Text style={styles.text}>{item.AvarageSpeed.toFixed(2)} m/min</Text>
           </View>
         </ScrollView>
       </View>

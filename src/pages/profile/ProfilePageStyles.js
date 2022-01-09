@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
     textAlign:"center",
     paddingTop:5,
     fontWeight:"900"
+  },
+  user:{
+    color:"white"
   }
 })
 

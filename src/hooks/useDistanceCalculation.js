@@ -1,10 +1,4 @@
-import axios from "axios"
-import React, {useEffect, useState} from "react"
-import { Alert } from "react-native"
-
-
-
-const useFetch = (lat1, lat2, lon1, lon2) => {
+const useDistancecalculation = (lat1, lat2, lon1, lon2) => {
         const R = 6371e3; 
         const φ1 = lat1 * Math.PI / 180 
         const φ2 = lat2 * Math.PI / 180
@@ -17,5 +11,4 @@ const useFetch = (lat1, lat2, lon1, lon2) => {
 }
 
   
-
-export default useFetch
+export default useDistancecalculation

@@ -4,7 +4,6 @@ import { Alert } from "react-native";
 import axios from "axios";
 
 
-
 export const LocationContext = createContext()
 const APIkey = 'd80c8ff3ae6c97309a86046f3ffd186a'
 
@@ -17,7 +16,6 @@ useEffect(() => {
   const getLocationData = async () => {
     Geolocation.getCurrentPosition(
       async (position) => {
-        console.log('get.position', position.coords);
         setStartLocation(position.coords);
         try {
           const response = await axios.get(
@@ -25,7 +23,6 @@ useEffect(() => {
             }&lon=${position.coords.longitude
             }&appid=${APIkey}`)
             setWeatherData(response.data)
-            console.log('response', weatherData)
         } catch (error) {
           Alert.alert(error.message)
         }

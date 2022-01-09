@@ -4,7 +4,7 @@ import { Formik } from "formik"
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import styles from "./SingInLayoutStyles";
-import Icon from "react-native-vector-icons/MaterialIcons"
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 
 
 const SingInLayout = ({ onSubmit, navigateGoBack }) => {
@@ -50,7 +50,7 @@ const SingInLayout = ({ onSubmit, navigateGoBack }) => {
         />
       </View>
       <View style={styles.bottomContainer}>
-        <Icon name="directions-walk" size={150} color="white"></Icon>
+        <Icon name="run" size={150} color="white"></Icon>
       </View>
     </SafeAreaView>
   )

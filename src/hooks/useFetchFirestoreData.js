@@ -6,7 +6,8 @@ const useFetchFirestoreData = () => {
   const [firestoreData, setFirestoreData] = useState([])
   const [firestoreDataAll, setFirestoreDataAll] = useState([])
   const {email} = useContext(UserMailContext)
-  const fetchData = async () => {
+ 
+ const fetchData = async () => {
     try {
       const response = await firestore().collection(`.RunningData`).doc(`${email}`).collection(`${email}`).get()
       setFirestoreData(response.docs.map((doc) => {
@@ -19,7 +20,6 @@ const useFetchFirestoreData = () => {
     } catch (error) {
       console.log(error)
     }
-   
   }
 
   useEffect(() => {

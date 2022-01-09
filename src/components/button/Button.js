@@ -1,11 +1,12 @@
 import React from "react"
-import {TouchableOpacity, Text} from "react-native"
-import styles from "./Buttonstyle"
+import { TouchableOpacity, Text } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons"
 
-const Button = ({title, onPress, theme="default", disabled, iconColor, iconName, iconSize}) => {
-  return(
-    <TouchableOpacity 
+import styles from "./Buttonstyle"
+
+const Button = ({ title, onPress, theme = "default", disabled, iconColor, iconName, iconSize }) => {
+  return (
+    <TouchableOpacity
       disabled={disabled}
       style={styles[theme].container}
       onPress={onPress}>

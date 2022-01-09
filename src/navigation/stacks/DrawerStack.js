@@ -1,11 +1,13 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
+import Icon from "react-native-vector-icons/MaterialIcons"
+
 import ActivityHistoryPage from "../../pages/activityHistory/ActivityHistoryPage";
 import LeaderboardPage from "../../pages/leaderboard/LeaderboardPage";
 import NewActivityPage from "../../pages/newActivity/NewActivityPage";
 import ProfileStack from "./ProfileStack";
-import Icon from "react-native-vector-icons/MaterialIcons"
 import LocationProvider from "../../context/locationProvider";
+import routes from "../routes";
 
 
 const Drawer = createDrawerNavigator()
@@ -22,7 +24,7 @@ const DrawerStack = () => {
               <Icon name="account-circle" size={size} color={color} />
             )
           }}
-          name='Profile Page'
+          name={routes.PROFILESTACK}
           component={ProfileStack} />
         <Drawer.Screen
           options={{
@@ -32,7 +34,7 @@ const DrawerStack = () => {
               <Icon name="add-circle-outline" size={size} color={color} />
             )
           }}
-          name='New Activity'
+          name={routes.NEWACTIVITY}
           component={NewActivityPage} />
         <Drawer.Screen
           options={{
@@ -42,7 +44,7 @@ const DrawerStack = () => {
               <Icon name="history" size={size} color={color} />
             )
           }}
-          name='Activity History'
+          name={routes.ACTIVITYHISTORY}
           component={ActivityHistoryPage} />
         <Drawer.Screen
           options={{
@@ -52,7 +54,7 @@ const DrawerStack = () => {
               <Icon name="leaderboard" size={size} color={color} />
             )
           }}
-          name='Leaderboard'
+          name={routes.LEADERBOARD}
           component={LeaderboardPage} />
       </Drawer.Navigator>
     </LocationProvider>

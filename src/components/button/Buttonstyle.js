@@ -65,5 +65,22 @@ const styles = {
       color: "teal"
     }
   }),
+  startButtonDisabled: StyleSheet.create({
+    container: {
+      backgroundColor: "white",
+      margin: 10,
+      alignItems: "center",
+      paddingBottom: 10,
+      paddingTop: 10,
+      paddingRight: 30,
+      paddingLeft: 30,
+      borderRadius: 50,
+      flexDirection: "row"
+    },
+    title: {
+      fontSize: 25,
+      color: "orange"
+    }
+  })
 }
 export default styles

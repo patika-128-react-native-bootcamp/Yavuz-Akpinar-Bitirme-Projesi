@@ -3,7 +3,7 @@ import Share from "react-native-share";
 
 const useShare = async ({distance, time, speed, location}) => {
   const shareOptions = {
-    title:"Compleated my run for today !",
+    title:"Share your run with your friends",
     message: `Compleated my run for today !
     Total distance : ${distance}
     Total time : ${time}

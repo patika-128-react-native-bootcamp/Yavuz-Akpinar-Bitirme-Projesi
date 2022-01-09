@@ -1,19 +1,16 @@
 import React from "react";
 import { FlatList, SafeAreaView, Text } from "react-native";
 import useFetchFirestoreData from "../../hooks/useFetchFirestoreData";
-import { useNavigation } from "@react-navigation/native";
 
-import ActivityHistoryCard from "../../components/cards/ActivityHistoryCard"
 import styles from "./LeaderboardPageStyles";
+import LeaderboardCard from "../../components/cards/LeaderboardCard/LeaderboardCard";
 
 
 const LeaderboardPage = () => {
   const {firestoreDataAll} = useFetchFirestoreData()
 
-  const navigation = useNavigation()
-
   const handleRenderItem = ({item, index}) => (
-    <ActivityHistoryCard item={item} index={index + 1} onPress={() =>  navigation.navigate('Detail', {item:item}) }/>
+    <LeaderboardCard item={item} index={index + 1} onPress={null}/>
   )
 
   return(

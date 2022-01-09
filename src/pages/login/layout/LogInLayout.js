@@ -1,16 +1,17 @@
 import { Formik } from "formik";
 import React from "react";
 import { SafeAreaView, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+
 import Button from "../../../components/button/Button";
 import Input from "../../../components/input/Input";
 import styles from "./LogInLayoutStyles";
-import Icon from "react-native-vector-icons/MaterialIcons"
 
 const LogInLayout = ({ onSubmit, navigateSingIn }) => {
   return (
     <SafeAreaView style={styles.outercontainer}>
       <View style={styles.topContainer}>
-        <Icon name="directions-walk" size={150} color="white"></Icon>
+        <Icon name="run" size={150} color="white"></Icon>
       </View>
       <View style={styles.bottomContainer}>
         <Formik initialValues={{ email: '', password: '' }}
