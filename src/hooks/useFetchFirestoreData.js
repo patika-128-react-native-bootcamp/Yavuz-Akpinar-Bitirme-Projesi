@@ -24,7 +24,7 @@ const useFetchFirestoreData = () => {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [email])
 
   return { firestoreData, firestoreDataAll }
 }

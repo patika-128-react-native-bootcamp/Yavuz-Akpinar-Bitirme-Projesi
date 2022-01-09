@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
 import LogInLayout from "./logInLayout/LogInLayout";
 import { UserMailContext } from "../../context/userMailProvider";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LogInPage = () => {
   const navigation = useNavigation()
@@ -18,6 +19,7 @@ const LogInPage = () => {
       if (email && password) {
         await auth().signInWithEmailAndPassword(email, password)
         setEmail(email)
+        AsyncStorage.setItem('@EMAIL', email)
       } else {
         return Alert.alert("olmadı")
       }

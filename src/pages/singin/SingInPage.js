@@ -5,6 +5,7 @@ import auth from '@react-native-firebase/auth';
 import SingInLayout from "./singInLayout/SingInLayout";
 import { UserMailContext } from "../../context/userMailProvider";
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SingInPage = () => {
@@ -31,6 +32,7 @@ const SingInPage = () => {
           }
           firestore().collection(`.RunningData`).doc(`${email}`).collection(`${email}`).doc().set(account)
           setEmail(email)
+          AsyncStorage.setItem('@EMAIL', email)
         }).catch(error => {
           if (error.code === 'auth/email-already-in-use') {
             Alert.alert('That email address is already in use!');
