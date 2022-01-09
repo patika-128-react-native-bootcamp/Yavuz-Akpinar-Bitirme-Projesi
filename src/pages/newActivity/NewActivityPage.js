@@ -39,7 +39,7 @@ const NewActivityPage = () => {
         setChartTime([counter, ...chartTime])
         setDistancePerMinute([])
       };
-    }(0), 20000);
+    }(0), 60000);
   }
 
   useEffect(() => {
